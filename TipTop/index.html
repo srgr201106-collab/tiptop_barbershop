@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Барбершоп ТипТоп — Дмитровское шоссе, 40к1</title>
+    <style>
+        :root {
+            --accent: #14b8a6;
+            --accent-hover: #2dd4bf;
+            --accent-soft: rgba(20, 184, 166, 0.12);
+            --bg: #0b0d0e;
+            --surface: #131618;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f4f4f5;
+            --muted: #9ca3af;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        header { background: rgba(11, 13, 14, 0.85); backdrop-filter: blur(12px); padding: 16px 8%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; border-bottom: 1px solid var(--border); z-index: 100; }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 3px; color: #fff; display: flex; align-items: center; }
+        .logo span { color: var(--accent); }
+        nav a { color: var(--muted); text-decoration: none; margin-left: 26px; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav a:hover { color: #fff; }
+        .btn { background: var(--accent); color: #042f2e; padding: 11px 22px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; transition: all 0.2s ease; text-decoration: none; display: inline-block; text-align: center; }
+        .btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+        .hero { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 8%; background: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.12), transparent 55%), linear-gradient(to bottom, rgba(11, 13, 14, 0.78), var(--bg)), url('https://unsplash.com') center/cover; }
+        .badge { background: var(--accent-soft); color: var(--accent-hover); padding: 6px 16px; border-radius: 99px; font-size: 13px; font-weight: 600; border: 1px solid rgba(20, 184, 166, 0.25); margin-bottom: 22px; }
+        .hero h1 { font-size: clamp(34px, 5vw, 58px); font-weight: 800; max-width: 800px; line-height: 1.15; margin-bottom: 18px; letter-spacing: -0.5px; }
+        .hero p { color: var(--muted); max-width: 580px; font-size: 17px; margin-bottom: 32px; }
+        section { padding: 75px 8%; }
+        h2 { font-size: 32px; text-align: center; margin-bottom: 10px; font-weight: 800; letter-spacing: -0.3px; }
+        h2 span { color: var(--accent); }
+        .sub { text-align: center; color: var(--muted); margin-bottom: 38px; font-size: 15px; }
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 32px; flex-wrap: wrap; }
+        .tab-btn { background: var(--surface); color: var(--muted); border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
+        .tab-btn.active, .tab-btn:hover { background: var(--accent); color: #042f2e; border-color: var(--accent); }
+        .tab-content { display: none; max-width: 1040px; margin: 0 auto; }
+        .tab-content.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color 0.25s ease, transform 0.25s ease; }
+        .card:hover { border-color: rgba(20, 184, 166, 0.5); transform: translateY(-2px); }
+        .card h3 { font-size: 17px; margin-bottom: 4px; color: #fff; font-weight: 700; }
+        .duration { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 10px; display: inline-block; }
+        .card p { color: var(--muted); font-size: 13.5px; margin-bottom: 18px; }
+        .card-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
+        .price-tag { font-size: 19px; font-weight: 800; color: #fff; }
+        .grid-4 { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .grid-3 { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; }
+        .avatar { width: 52px; height: 52px; border-radius: 12px; background: var(--accent-soft); border: 1px solid rgba(20, 184, 166, 0.3); color: var(--accent-hover); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 19px; margin-bottom: 14px; }
+        .role { color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+        .calc-box { max-width: 880px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }
+        .opt-item { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; user-select: none; font-size: 14px; }
+        .opt-item:hover { border-color: rgba(20, 184, 166, 0.4); }
+        .opt-item.active { background: var(--accent-soft); border-color: var(--accent); }
+        .summary-panel { background: #0e1012; padding: 24px; border-radius: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+        .total-price { font-size: 34px; font-weight: 800; color: var(--accent-hover); margin: 10px 0; }
+        .review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+        .stars { color: var(--accent); font-size: 14px; margin-bottom: 10px; letter-spacing: 2px; }
+        .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 200; padding: 16px; }
+        .modal-box { background: #14181b; padding: 30px; border-radius: 16px; width: 100%; max-width: 420px; border: 1px solid rgba(20, 184, 166, 0.35); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65); position: relative; animation: popIn 0.22s ease-out; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .field-label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .modal-box input { width: 100%; padding: 12px 14px; background: #0b0d0e; border: 1px solid var(--border); color: #fff; border-radius: 10px; outline: none; font-size: 14px; transition: border-color 0.2s; }
+        .modal-box input:focus { border-color: var(--accent); }
+        .chips-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .chip { padding: 8px 13px; background: #0b0d0e; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; user-select: none; }
+        .chip:hover { border-color: rgba(20, 184, 166, 0.5); color: #fff; }
+        .chip.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-hover); }
+        @media (max-width: 768px) { .calc-box { grid-template-columns: 1fr; } nav { display: none; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">ТИП<span>ТОП</span></div>
+    <nav>
+        <a href="#catalog">Услуги и цены</a>
+        <a href="#masters">Мастера</a>
+        <a href="#calculator">Калькулятор</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#contacts">Контакты</a>
+    </nav>
+    <button class="btn" onclick="openBooking('Мужская стрижка — 1 200 ₽')">Записаться</button>
+</header>
+
+<div class="hero">
+    <div class="badge">★ 5.0 на Яндекс Картах · 312 отзывов</div>
+    <h1>Барбершоп ТипТоп</h1>
+    <p>Мужские, детские и женские стрижки, оформление бороды и уход.<br><span style="color: var(--accent-hover); font-size: 15px;">Москва, Дмитровское шоссе, 40, корп. 1</span></p>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <button class="btn" onclick="openBooking('Мужская стрижка — 1 200 ₽')">Записаться онлайн</button>
+        <a href="#catalog" class="btn btn-outline">Смотреть прайс</a>
+    </div>
+</div>
+
+<section id="catalog" class="reveal">
+    <h2>Услуги и <span>цены</span></h2>
+    <p class="sub">Актуальный прайс-лист с точным временем выполнения</p>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('services', this)">Основные услуги</button>
+        <button class="tab-btn" onclick="switchTab('top', this)">ТОП-Барбер</button>
+        <button class="tab-btn" onclick="switchTab('women', this)">Женские стрижки</button>
+    </div>
+
+    <div id="tab-services" class="tab-content active">
+        <div class="card">
+            <div><h3>Мужская стрижка</h3><span class="duration">45 мин</span><p>Стрижка любой сложности с мытьём головы и укладкой стайлингом.</p></div>
+            <div class="card-bottom"><span class="price-tag">1 200 ₽</span><button class="btn" onclick="openBooking('Мужская стрижка — 1 200 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Стрижка + борода</h3><span class="duration">1 ч 30 мин</span><p>Комплексная стрижка головы и моделирование формы бороды за один визит.</p></div>
+            <div class="card-bottom"><span class="price-tag">2 200 ₽</span><button class="btn" onclick="openBooking('Стрижка + борода — 2 200 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Моделирование бороды</h3><span class="duration">30 мин</span><p>Подбор индивидуальной формы бороды, распаривание и чёткие контуры.</p></div>
+            <div class="card-bottom"><span class="price-tag">1 000 – 1 300 ₽</span><button class="btn" onclick="openBooking('Моделирование бороды — 1 000 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Детская стрижка (до 12 лет)</h3><span class="duration">30 мин</span><p>Детская стрижка любой сложности (до 13 лет включительно).</p></div>
+            <div class="card-bottom"><span class="price-tag">900 ₽</span><button class="btn" onclick="openBooking('Детская стрижка — 900 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Стрижка машинкой</h3><span class="duration">15 мин</span><p>Быстрая и аккуратная стрижка под насадку с окантовкой.</p></div>
+            <div class="card-bottom"><span class="price-tag">700 – 800 ₽</span><button class="btn" onclick="openBooking('Стрижка машинкой — 700 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Бритьё шейвером</h3><span class="duration">30 мин</span><p>Гладкое бритьё машинкой Шейвер головы либо лица без раздражения.</p></div>
+            <div class="card-bottom"><span class="price-tag">900 – 1 000 ₽</span><button class="btn" onclick="openBooking('Бритьё шейвером — 900 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Камуфляж головы / бороды</h3><span class="duration">30 мин</span><p>Естественное тонирование седины головы (1 100–1 200 ₽) или бороды (1 000–1 100 ₽).</p></div>
+            <div class="card-bottom"><span class="price-tag">1 000 – 1 200 ₽</span><button class="btn" onclick="openBooking('Камуфляж головы / бороды')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Моделирование усов</h3><span class="duration">15 мин</span><p>Придание аккуратного контура и профессиональная формовка усов.</p></div>
+            <div class="card-bottom"><span class="price-tag">500 – 700 ₽</span><button class="btn" onclick="openBooking('Моделирование усов — 500 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Скраб + чёрная маска / Ваксинг</h3><span class="duration">15–30 мин</span><p>Глубокое очищение кожи (1 000–1 100 ₽) и эпиляция воском (300 ₽).</p></div>
+            <div class="card-bottom"><span class="price-tag">300 – 1 100 ₽</span><button class="btn" onclick="openBooking('Уход за кожей / Ваксинг')">Выбрать</button></div>
+        </div>
+    </div>
+
+    <div id="tab-top" class="tab-content">
+        <div class="card">
+            <div><h3>Стрижка у ТОП Барбера</h3><span class="duration">45 мин</span><p>Индивидуальный подбор стиля от ведущих мастеров Арута или Карена.</p></div>
+            <div class="card-bottom"><span class="price-tag">1 500 ₽</span><button class="btn" onclick="openBooking('Стрижка у ТОП Барбера — 1 500 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Стрижка + борода у ТОП барбера</h3><span class="duration">1 ч 30 мин</span><p>Полный премиальный комплекс ухода за волосами и бородой.</p></div>
+            <div class="card-bottom"><span class="price-tag">2 800 ₽</span><button class="btn" onclick="openBooking('Стрижка + борода у ТОП барбера — 2 800 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Моделирование бороды у ТОП Барбера</h3><span class="duration">30 мин</span><p>Филигранная геометрия бороды и усов от шеф-мастера.</p></div>
+            <div class="card-bottom"><span class="price-tag">1 300 ₽</span><button class="btn" onclick="openBooking('Моделирование бороды у ТОП Барбера — 1 300 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Детская стрижка у ТОП Барбера</h3><span class="duration">45 мин</span><p>Стрижка любой сложности с индивидуальным подходом к ребёнку.</p></div>
+            <div class="card-bottom"><span class="price-tag">1 200 ₽</span><button class="btn" onclick="openBooking('Детская стрижка у ТОП Барбера — 1 200 ₽')">Выбрать</button></div>
+        </div>
+    </div>
+
+    <div id="tab-women" class="tab-content">
+        <div class="card">
+            <div><h3>Женская стрижка короткая</h3><span class="duration">1 ч</span><p>Стильная короткая женская стрижка с мытьём головы и укладкой.</p></div>
+            <div class="card-bottom"><span class="price-tag">1 600 ₽</span><button class="btn" onclick="openBooking('Женская стрижка короткая — 1 600 ₽')">Выбрать</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Женская стрижка средняя</h3><span class="duration">1 ч</span><p>Стрижка на среднюю длину волос, подбор формы и лёгкая укладка.</p></div>
+            <div class="card-bottom"><span class="price-tag">по прайсу</span><button class="btn" onclick="openBooking('Женская стрижка средняя')">Записаться</button></div>
+        </div>
+        <div class="card">
+            <div><h3>Женская стрижка длинная</h3><span class="duration">1 ч</span><p>Бережная стрижка на длинные волосы, ровный срез или каскад.</p></div>
+            <div class="card-bottom"><span class="price-tag">по прайсу</span><button class="btn" onclick="openBooking('Женская стрижка длинная')">Записаться</button></div>
+        </div>
+    </div>
+</section>
+<section id="masters" class="reveal" style="background: rgba(255,255,255,0.015);">
+    <h2>Команда <span>ТипТоп</span></h2>
+    <p class="sub">Выберите своего мастера для записи</p>
+    <div class="grid-4">
+        <div class="card">
+            <div>
+                <div class="avatar">А</div>
+                <h3>Арут</h3>
+                <div class="role">ТОП барбер</div>
+                <p>Чистейшие переходы, филигранное оформление бороды и подбор стайлинга.</p>
+            </div>
+            <button class="btn" style="width:100%;" onclick="openBooking('Запись к ТОП барберу Аруту')">Записаться</button>
+        </div>
+        <div class="card">
+            <div>
+                <div class="avatar">К</div>
+                <h3>Карен</h3>
+                <div class="role">ТОП барбер</div>
+                <p>Мужские и детские стрижки любой сложности, внимание к деталям и уход.</p>
+            </div>
+            <button class="btn" style="width:100%;" onclick="openBooking('Запись к ТОП барберу Карену')">Записаться</button>
+        </div>
+        <div class="card">
+            <div>
+                <div class="avatar">Д</div>
+                <h3>Дарья</h3>
+                <div class="role">Барбер</div>
+                <p>Мужские, детские и женские стрижки, аккуратные формы и стильные укладки.</p>
+            </div>
+            <button class="btn" style="width:100%;" onclick="openBooking('Запись к барберу Дарье')">Записаться</button>
+        </div>
+        <div class="card">
+            <div>
+                <div class="avatar">С</div>
+                <h3>Савелий</h3>
+                <div class="role">Барбер</div>
+                <p>Современные мужские стрижки, фейды, оформление бороды и бритьё шейвером.</p>
+            </div>
+            <button class="btn" style="width:100%;" onclick="openBooking('Запись к барберу Савелию')">Записаться</button>
+        </div>
+    </div>
+</section>
+
+<section id="calculator" class="reveal">
+    <h2>Собери свой <span>комплекс</span></h2>
+    <p class="sub">Отметьте нужные позиции — калькулятор сразу покажет сумму и время визита</p>
+    <div class="calc-box">
+        <div>
+            <div class="opt-item active" data-price="1200" data-time="45" onclick="toggleOpt(this)"><span>Мужская стрижка (45 мин)</span><b>1 200 ₽</b></div>
+            <div class="opt-item" data-price="1000" data-time="30" onclick="toggleOpt(this)"><span>Моделирование бороды (30 мин)</span><b>1 000 ₽</b></div>
+            <div class="opt-item" data-price="1000" data-time="30" onclick="toggleOpt(this)"><span>Камуфляж бороды (30 мин)</span><b>1 000 ₽</b></div>
+            <div class="opt-item" data-price="1000" data-time="30" onclick="toggleOpt(this)"><span>Скраб + чёрная маска (30 мин)</span><b>1 000 ₽</b></div>
+            <div class="opt-item" data-price="300" data-time="15" onclick="toggleOpt(this)"><span>Эпиляция воском (15 мин)</span><b>300 ₽</b></div>
+        </div>
+        <div class="summary-panel">
+            <div>
+                <div style="color:var(--muted); font-size:14px;">Выбрано позиций: <b id="countEl" style="color:#fff;">1</b></div>
+                <div style="color:var(--muted); font-size:14px; margin-top:4px;">Время в кресле: <b id="timeEl" style="color:#fff;">45 мин</b></div>
+                <div class="total-price" id="totalEl">1 200 ₽</div>
+            </div>
+            <button class="btn" style="width:100%;" onclick="openBooking(calcSummary)">Записаться на комплекс</button>
+        </div>
+    </div>
+</section>
+<section id="reviews" class="reveal" style="background: rgba(255,255,255,0.015);">
+    <h2>Отзывы <span>гостей</span></h2>
+    <p class="sub">312 оценок на Яндекс Картах · Рейтинг 5.0 · Персонал 99% · Барберы 97%</p>
+    <div class="grid-3">
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p style="font-size:14px; color:#d4d4d8;">«Топ барбер Арут — настоящий профессионал своего дела! Переходы чистейшие, борода оформлена филигранно. Классный массаж головы, топовая косметика и крутая атмосфера.»</p>
+            <small style="color:var(--muted); display:block; margin-top:14px;">— Мария Ковалева, Яндекс Карты</small>
+        </div>
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p style="font-size:14px; color:#d4d4d8;">«Топовое место! Сыну сделали бомбическую стрижку и укладку, исправили огрехи прошлой стрижки. Карен супер топ барбер! Нашёл подход к ребёнку, очень уютно.»</p>
+            <small style="color:var(--muted); display:block; margin-top:14px;">— Анна И., Яндекс Карты</small>
+        </div>
+        <div class="review-card">
+            <div class="stars">★★★★★</div>
+            <p style="font-size:14px; color:#d4d4d8;">«Уютная обстановка, стильный дизайн и приятная музыка. Наводил мне порядок на голове Карен — результатом очень доволен, стрижка получилась идеальной.»</p>
+            <small style="color:var(--muted); display:block; margin-top:14px;">— Александр, Яндекс Карты</small>
+        </div>
+    </div>
+</section>
+
+<footer id="contacts" style="text-align:center; padding:55px 8%; border-top:1px solid var(--border);">
+    <div class="logo" style="justify-content:center; margin-bottom:12px;">ТИП<span>ТОП</span></div>
+    <p style="color:#e4e4e7; font-size:15px; margin-bottom:6px;">Москва, Дмитровское ш., 40, корп. 1 (этаж 1)</p>
+    <p style="color:var(--muted); font-size:14px; margin-bottom:22px;">
+        <a href="tel:+79941111777" style="color:var(--accent-hover); text-decoration:none; font-weight:700;">+7 (994) 111-17-77</a> · Ежедневно с 10:00
+    </p>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn" onclick="openBooking('Онлайн-запись с сайта')">Записаться на стрижку</button>
+        <a href="https://wa.me" target="_blank" class="btn btn-outline">Написать в WhatsApp</a>
+    </div>
+</footer>
+
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <span style="position:absolute; top:16px; right:20px; cursor:pointer; font-size:24px; color:#888; line-height:1;" onclick="closeModal()">&times;</span>
+        <h3 style="color:#fff; font-size:20px; margin-bottom:4px;">Онлайн-запись в <span style="color:var(--accent);">ТипТоп</span></h3>
+        <p style="color:var(--muted); font-size:13px; margin-bottom:14px;">Дмитровское ш., 40, корп. 1 · Откроем готовое сообщение в WhatsApp</p>
+
+        <span class="field-label">Выбранная услуга</span>
+        <input type="text" id="summaryInput" readonly style="color:var(--accent-hover); font-weight:700; border-color:rgba(20,184,166,0.3);">
+
+        <span class="field-label">Удобный день</span>
+        <div class="chips-row" id="dateChips">
+            <div class="chip active" onclick="selectChip(this, 'date')">Сегодня</div>
+            <div class="chip" onclick="selectChip(this, 'date')">Завтра</div>
+            <div class="chip" onclick="selectChip(this, 'date')">Послезавтра</div>
+            <div class="chip" onclick="selectChip(this, 'date')">В выходные</div>
+        </div>
+
+        <span class="field-label">Время визита</span>
+        <div class="chips-row" id="timeChips">
+            <div class="chip" onclick="selectChip(this, 'time')">11:00</div>
+            <div class="chip" onclick="selectChip(this, 'time')">13:00</div>
+            <div class="chip active" onclick="selectChip(this, 'time')">15:00</div>
+            <div class="chip" onclick="selectChip(this, 'time')">17:30</div>
+            <div class="chip" onclick="selectChip(this, 'time')">19:30</div>
+        </div>
+
+        <span class="field-label">Ваше имя</span>
+        <input type="text" id="clientName" placeholder="Например: Алексей" oninput="updateWaLink()">
+
+        <a id="waSubmitLink" href="https://wa.me" target="_blank" class="btn" style="width:100%; margin-top:16px; padding:13px;" onclick="closeModal()">Записаться через WhatsApp</a>
+    </div>
+</div>
+
+<script>
+    let calcSummary = "Мужская стрижка (1 200 ₽)";
+    let selectedDate = "Сегодня";
+    let selectedTime = "15:00";
+
+    function updateWaLink() {
+        const srv = document.getElementById('summaryInput').value;
+        const n = document.getElementById('clientName').value.trim();
+        const namePart = n ? '. Имя: ' + n : '';
+        const text = 'Здравствуйте! Хочу записаться в барбершоп ТипТоп (Дмитровское ш., 40к1). Услуга: ' + srv + '. Когда: ' + selectedDate + ' в ' + selectedTime + namePart;
+        document.getElementById('waSubmitLink').href = 'https://wa.me?text=' + encodeURIComponent(text);
+    }
+
+    function switchTab(tabName, btn) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById('tab-' + tabName).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function toggleOpt(el) {
+        el.classList.toggle('active');
+        let sum = 0, time = 0, names = [];
+        document.querySelectorAll('.opt-item.active').forEach(item => {
+            sum += Number(item.dataset.price);
+            time += Number(item.dataset.time);
+            names.push(item.querySelector('span').innerText);
+        });
+        document.getElementById('countEl').innerText = names.length;
+        document.getElementById('timeEl').innerText = time + ' мин';
+        document.getElementById('totalEl').innerText = sum.toLocaleString('ru-RU') + ' ₽';
+        calcSummary = names.length ? names.join(' + ') + ' (' + sum + ' ₽)' : 'Консультация';
+    }
+
+    function selectChip(el, type) {
+        const container = type === 'date' ? document.getElementById('dateChips') : document.getElementById('timeChips');
+        container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        if (type === 'date') selectedDate = el.innerText;
+        if (type === 'time') selectedTime = el.innerText;
+        updateWaLink();
+    }
+
+    function openBooking(title) {
+        document.getElementById('summaryInput').value = title;
+        updateWaLink();
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+
